@@ -25,18 +25,7 @@ Then, run the development server:
 npm run dev
 ```
 
-The app will be available at http://localhost:8080.
-
-## Code Overview
-
-The app consists of the following components:
-
-- `App.vue`: The root component of the app.
-- `Levels.vue`: A component that displays the different levels of the app.
-- `Error.vue`: A component that displays error messages.
-- `Lottery.vue`: A component that allows users to create and edit lotteries.
-- `Person.vue`: A component that allows users to add and edit participants to a lottery.
-- `Winner.vue`: A component that displays the winner of a lottery.
+The app will be available at http://localhost:5173.
 
 ## How to Use the App
 
