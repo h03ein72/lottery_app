@@ -1,0 +1,63 @@
+[v-clock]{
+  display: none;
+}
+
+*{
+  padding: 0;
+  margin: 0;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey; 
+  border-radius: 10px;
+}
+ 
+::-webkit-scrollbar-thumb {
+  background: #999; 
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #666; 
+}
+
+body{
+  background: #f0f0f0;
+  font-family: 'Roboto', sans-serif;
+}
+
+.wrapper{
+  display: grid;
+  grid-template-columns: 1fr;
+  place-items: center;
+  min-height: 100vh;
+}
+
+.next{
+  background: #A8C69F;
+}
+
+.back{
+  background: #5C5D8D;
+}
+
+.add{
+  background: #D3B88C;
+}
+
+.error{
+  background: #DB5461;
+}
+
+.disabled{
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+.iBtns{
+  cursor: pointer;
+}
