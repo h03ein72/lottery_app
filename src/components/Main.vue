@@ -1,14 +1,14 @@
 <script setup>
 import Levels from './Levels.vue';
 import Error from './Error.vue';
-import { reactive, ref, computed, onMounted } from 'vue';
+import { reactive, ref, onMounted } from 'vue';
 
 const level = ref(1);
 const err = reactive([]);
+const editData = ref(null);
 const nameOfLottery = ref();
 const nameOfPerson = ref();
 const lotteries = reactive({});
-// const people = reactive([]);
 const winner = ref();
 
 onMounted(()=>{
@@ -46,16 +46,25 @@ const addPerson = () =>{
     err.pop();
   }
 }
-
-const editPerson = (index, array) =>{
-  const reverseIndexCalculator = reverseIndexCalculator(index, array);
-  array.splice(reverseIndexCalculator, 1);
+const reverseIndexCalc = (index, array) =>{
+  return parseInt(array.length-index-1);
+}
+const _editPerson = (index, array) =>{
+  nameOfPerson.value = array[reverseIndexCalc(index, array)];
+  editData.value = [reverseIndexCalc(index, array), array];
+}
+const editPerson = (array) =>{
+  // index of array => array[0]
+  // whole array => array[1]
+  // value of array => array[1][array[0]]
+  array[1][array[0]] = nameOfPerson.value;
   localStorage.setItem("lotteries", JSON.stringify(lotteries));
+  editData.value = null;
+  nameOfPerson.value = null;
 }
 
 const deletePerson = (index, array) =>{
-  const reverseIndexCalculator = parseInt(array.length-index-1);
-  array.splice(reverseIndexCalculator, 1);
+  array.splice(reverseIndexCalc(index, array), 1);
   localStorage.setItem("lotteries", JSON.stringify(lotteries));
 }
 
@@ -147,14 +156,15 @@ const errHandler = (errors, timer) =>{
           <ul id="people">
 
               <li v-for="(person, index) in lotteries[nameOfLottery].slice().reverse()"> 
-                {{ person }} <div class="iBtns"><span @click="editPerson(index, lotteries[nameOfLottery])"><font-awesome-icon :icon="['fas', 'pen-to-square']" /></span> <span @click="deletePerson(index, lotteries[nameOfLottery])"><font-awesome-icon :icon="['fas', 'trash-can']" /></span></div>
+                {{ person }} <div class="iBtns"><span @click="_editPerson(index, lotteries[nameOfLottery])"><font-awesome-icon :icon="['fas', 'pen-to-square']" /></span> <span @click="deletePerson(index, lotteries[nameOfLottery])"><font-awesome-icon :icon="['fas', 'trash-can']" /></span></div>
               </li>
           </ul>
         </div>
         <label>Name:</label>
         <input type="text" v-model="nameOfPerson" @keyup.enter="addPerson" placeholder="Name" />
         <template #button>
-            <button class="add" @click="addPerson">Add to the List</button>
+            <button v-if="editData" class="edit" @click="editPerson(editData)">Edit the person</button>
+            <button v-else class="add" @click="addPerson">Add to the List</button>
             <button class="next" @click="result">Save and Let find out the Winner</button>
             <button class="back" @click="previousLevel">Back to Settings</button>
         </template>
